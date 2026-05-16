@@ -10,6 +10,14 @@ use crate::{KeyCode, Modifiers, Result};
 // Low numbered tokens are allocated to devices.
 const PING_TOKEN: Token = Token(usize::MAX);
 
+fn is_keyboard(device: &Device) -> bool {
+    device.supported_events().contains(EventType::KEY)
+        && device.supported_keys().is_some_and(|keys| {
+            // Treat only devices with regular typing keys as keyboards.
+            keys.contains(Key::KEY_A) && keys.contains(Key::KEY_SPACE)
+        })
+}
+
 pub const fn code_for(key: KeyCode) -> Option<Key> {
     // This mapping is based on all the different browsers. They however all use
     // the X11 scan codes. Fortunately those have a trivial 1:1 mapping to evdev
@@ -242,7 +250,7 @@ pub fn new() -> Result<Hook> {
 
     let mut devices: Vec<Device> = evdev::enumerate()
         .map(|(_, d)| d)
-        .filter(|d| d.supported_events().contains(EventType::KEY))
+        .filter(is_keyboard)
         .collect();
 
     for (i, fd) in devices.iter().enumerate() {

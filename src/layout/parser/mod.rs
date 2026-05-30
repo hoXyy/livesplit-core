@@ -23,6 +23,7 @@ use crate::{
 };
 use core::{mem::MaybeUninit, num::ParseIntError, str};
 
+mod alternate_timing_method;
 mod blank_space;
 mod current_comparison;
 mod current_pace;
@@ -667,6 +668,7 @@ where
                 // Otherwise we need to cache the settings and load them later.
                 if let Some(component) = &mut component {
                     match component {
+                        Component::AlternateTimingMethod(c) => alternate_timing_method::settings(reader, c),
                         Component::BlankSpace(c) => blank_space::settings(reader, c),
                         Component::CurrentComparison(c) => current_comparison::settings(reader, c),
                         Component::CurrentPace(c) => current_pace::settings(reader, c),

@@ -153,6 +153,31 @@ pub extern "C" fn Layout_push(this: &mut Layout, component: OwnedComponent) {
     this.push(*component);
 }
 
+/// Encodes all pending World Record Component request URLs and their component
+/// indices as JSON.
+#[unsafe(no_mangle)]
+pub extern "C" fn Layout_world_record_request_urls(this: &mut Layout, timer: &Timer) -> Json {
+    output_vec(|output| {
+        serde_json::to_writer(output, &this.world_record_request_urls(&timer.snapshot())).unwrap();
+    })
+}
+
+/// Passes a speedrun.com response to the World Record Component at the
+/// specified component index.
+///
+/// # Safety
+///
+/// `response` must be a valid null-terminated UTF-8 string.
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn Layout_world_record_parse_response(
+    this: &mut Layout,
+    component_index: usize,
+    response: *const std::os::raw::c_char,
+) -> bool {
+    // SAFETY: The caller guarantees that `response` is a valid string.
+    this.world_record_parse_response(component_index, unsafe { str(response) })
+}
+
 /// Scrolls up all the components in the layout that can be scrolled up.
 #[unsafe(no_mangle)]
 pub extern "C" fn Layout_scroll_up(this: &mut Layout) {

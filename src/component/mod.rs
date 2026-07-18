@@ -23,6 +23,7 @@ pub mod text;
 pub mod timer;
 pub mod title;
 pub mod total_playtime;
+pub mod world_record;
 
 pub mod key_value;
 
@@ -46,3 +47,4 @@ pub use text::Component as Text;
 pub use timer::Component as Timer;
 pub use title::Component as Title;
 pub use total_playtime::Component as TotalPlaytime;
+pub use world_record::Component as WorldRecord;

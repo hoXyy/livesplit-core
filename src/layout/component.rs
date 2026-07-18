@@ -4,6 +4,7 @@ use crate::{
         alternate_timing_method, blank_space, carousel, current_comparison, current_pace, delta,
         detailed_timer, graph, group, pb_chance, possible_time_save, previous_segment,
         segment_time, separator, splits, sum_of_best, text, timer, title, total_playtime,
+        world_record,
     },
     localization::Lang,
     platform::prelude::*,
@@ -58,6 +59,8 @@ pub enum Component {
     /// A carousel of components that cycles through its children, showing
     /// one at a time.
     Carousel(carousel::Component),
+    /// The World Record Component.
+    WorldRecord(world_record::Component),
 }
 
 impl From<alternate_timing_method::Component> for Component {
@@ -180,6 +183,12 @@ impl From<carousel::Component> for Component {
     }
 }
 
+impl From<world_record::Component> for Component {
+    fn from(component: world_record::Component) -> Self {
+        Self::WorldRecord(component)
+    }
+}
+
 impl Component {
     /// Returns the child components if this is a container component.
     pub fn children(&self) -> Option<&[Component]> {
@@ -275,6 +284,9 @@ impl Component {
             (ComponentState::Carousel(state), Component::Carousel(carousel)) => {
                 carousel.update_state(state, image_cache, timer, layout_settings, lang)
             }
+            (ComponentState::KeyValue(state), Component::WorldRecord(component)) => {
+                component.update_state(state, timer, lang)
+            }
             (state, component) => {
                 *state = component.state(image_cache, timer, layout_settings, lang)
             }
@@ -351,6 +363,9 @@ impl Component {
             Component::Carousel(carousel) => {
                 ComponentState::Carousel(carousel.state(image_cache, timer, layout_settings, lang))
             }
+            Component::WorldRecord(component) => {
+                ComponentState::KeyValue(component.state(timer, lang))
+            }
         }
     }
 
@@ -402,6 +417,9 @@ impl Component {
             }
             Component::Group(group) => ComponentSettings::Group(group.settings()),
             Component::Carousel(carousel) => ComponentSettings::Carousel(carousel.settings()),
+            Component::WorldRecord(component) => {
+                ComponentSettings::WorldRecord(component.settings().clone())
+            }
         }
     }
 
@@ -431,6 +449,7 @@ impl Component {
             Component::TotalPlaytime(component) => Cow::Borrowed(component.name(lang)),
             Component::Group(group) => Cow::Borrowed(group.name(lang, parent_direction.opposite())),
             Component::Carousel(carousel) => Cow::Borrowed(carousel.name(lang)),
+            Component::WorldRecord(component) => Cow::Borrowed(component.name()),
         }
     }
 
@@ -488,6 +507,7 @@ impl Component {
                 group.settings_description(lang, parent_direction.opposite())
             }
             Component::Carousel(carousel) => carousel.settings_description(lang),
+            Component::WorldRecord(component) => component.settings_description(lang),
         }
     }
 
@@ -521,6 +541,7 @@ impl Component {
             Component::TotalPlaytime(component) => component.set_value(index, value),
             Component::Group(group) => group.set_value(index, value),
             Component::Carousel(carousel) => carousel.set_value(index, value),
+            Component::WorldRecord(component) => component.set_value(index, value),
         }
     }
 }

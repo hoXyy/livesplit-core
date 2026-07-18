@@ -39,6 +39,7 @@ mod text;
 mod timer;
 mod title;
 mod total_playtime;
+mod world_record;
 
 #[cfg(all(windows, feature = "std"))]
 mod font_resolving;
@@ -659,6 +660,9 @@ where
                     "LiveSplit.Timer.dll" => timer::Component::new().into(),
                     "LiveSplit.Title.dll" => title::Component::new().into(),
                     "LiveSplit.TotalPlaytime.dll" => total_playtime::Component::new().into(),
+                    "LiveSplit.WorldRecord.dll" => {
+                        crate::component::world_record::Component::new().into()
+                    }
                     _ => return Ok(()),
                 });
                 Ok(())
@@ -668,7 +672,9 @@ where
                 // Otherwise we need to cache the settings and load them later.
                 if let Some(component) = &mut component {
                     match component {
-                        Component::AlternateTimingMethod(c) => alternate_timing_method::settings(reader, c),
+                        Component::AlternateTimingMethod(c) => {
+                            alternate_timing_method::settings(reader, c)
+                        }
                         Component::BlankSpace(c) => blank_space::settings(reader, c),
                         Component::CurrentComparison(c) => current_comparison::settings(reader, c),
                         Component::CurrentPace(c) => current_pace::settings(reader, c),
@@ -690,6 +696,7 @@ where
                         Component::Group(_) => end_tag(reader),
                         // Carousels are not part of original LiveSplit format.
                         Component::Carousel(_) => end_tag(reader),
+                        Component::WorldRecord(c) => world_record::settings(reader, c),
                     }
                 } else {
                     end_tag(reader)

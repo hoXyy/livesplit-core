@@ -96,6 +96,7 @@ pub mod web_command_sink;
 pub mod web_rendering;
 #[cfg(all(target_family = "wasm", feature = "therun-gg"))]
 pub mod web_therun_gg;
+pub mod world_record_component;
 
 use crate::{
     run_metadata_custom_variable::RunMetadataCustomVariable,

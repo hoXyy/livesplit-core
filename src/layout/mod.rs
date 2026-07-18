@@ -86,6 +86,31 @@ impl Layout {
         self.components.push(component.into());
     }
 
+    /// Returns the pending speedrun.com request URLs for all World Record
+    /// Components, paired with their component indices.
+    pub fn world_record_request_urls(&mut self, timer: &Snapshot<'_>) -> Vec<(usize, String)> {
+        self.components
+            .iter_mut()
+            .enumerate()
+            .filter_map(|(index, component)| {
+                let Component::WorldRecord(component) = component else {
+                    return None;
+                };
+                Some((index, component.request_url(timer)?))
+            })
+            .collect()
+    }
+
+    /// Passes a speedrun.com response to the World Record Component at the
+    /// specified component index. Returns `false` if the index is invalid, the
+    /// component is not a World Record Component, or the response is invalid.
+    pub fn world_record_parse_response(&mut self, index: usize, response: &str) -> bool {
+        let Some(Component::WorldRecord(component)) = self.components.get_mut(index) else {
+            return false;
+        };
+        component.parse_response(response).is_ok()
+    }
+
     /// Updates the layout's state based on the timer provided. You can use this
     /// to visualize all of the components of a layout. The [`ImageCache`] is
     /// updated with all the images that are part of the state. The images are

@@ -4,6 +4,7 @@ use crate::{
         alternate_timing_method, blank_space, carousel, current_comparison, current_pace, delta,
         detailed_timer, graph, group, pb_chance, possible_time_save, previous_segment,
         segment_time, separator, splits, sum_of_best, text, timer, title, total_playtime,
+        world_record,
     },
     platform::prelude::*,
 };
@@ -52,6 +53,8 @@ pub enum ComponentSettings {
     Group(group::Settings),
     /// The Settings for a Carousel Component.
     Carousel(carousel::Settings),
+    /// The Settings for the World Record Component.
+    WorldRecord(world_record::Settings),
 }
 
 impl From<ComponentSettings> for Component {
@@ -114,6 +117,9 @@ impl From<ComponentSettings> for Component {
             }
             ComponentSettings::Carousel(settings) => {
                 Component::Carousel(carousel::Component::with_settings(settings))
+            }
+            ComponentSettings::WorldRecord(settings) => {
+                Component::WorldRecord(world_record::Component::with_settings(settings))
             }
         }
     }

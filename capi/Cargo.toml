@@ -67,6 +67,7 @@ components = [
     "timer-component",
     "title-component",
     "total-playtime-component",
+    "world-record-component",
 ]
 
 # Fine-grained API type features. Dependencies describe types that occur in the
@@ -170,6 +171,7 @@ timer-write-lock = ["timer"]
 title-component = ["component", "lang", "timer", "title-component-state"]
 title-component-state = []
 total-playtime-component = ["component", "key-value-component-state", "lang", "timer"]
+world-record-component = ["component", "key-value-component-state", "lang", "timer"]
 
 localization = ["livesplit-core/localization"]
 image-shrinking = ["livesplit-core/image-shrinking"]

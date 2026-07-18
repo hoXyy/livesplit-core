@@ -7,7 +7,7 @@ use crate::{
     localization::{Lang, Text},
     platform::prelude::*,
     settings::{Color, Field, Gradient, SettingsDescription, Value},
-    timing::formatter::{Accuracy, DigitsFormat, Regular, TimeFormatter, timer as formatter},
+    timing::formatter::{Accuracy, DigitsFormat, TimeFormatter, timer as formatter},
 };
 use core::fmt::Write;
 use serde_derive::{Deserialize, Serialize};

@@ -2,6 +2,32 @@ use super::{Piece, PlaceholderText, Text};
 
 pub const fn resolve(text: Text) -> &'static str {
     match text {
+        Text::ComponentResetChance
+        | Text::ComponentSuccessChance
+        | Text::ComponentRunsEnded
+        | Text::ResetChanceShort
+        | Text::SuccessChanceShort
+        | Text::RunsEndedShort
+        | Text::ResetChanceBackground
+        | Text::ResetChanceBackgroundDescription
+        | Text::ResetChanceMode
+        | Text::ResetChanceModeDescription
+        | Text::ResetChanceAccuracy
+        | Text::ResetChanceAccuracyDescription
+        | Text::ResetChanceTrailingZeroes
+        | Text::ResetChanceTrailingZeroesDescription
+        | Text::ResetChanceBasis
+        | Text::ResetChanceBasisDescription
+        | Text::ResetChanceRecentRuns
+        | Text::ResetChanceRecentRunsDescription
+        | Text::ResetChanceRecentSplitAttempts
+        | Text::ResetChanceRecentSplitAttemptsDescription
+        | Text::ResetChanceDisplayTwoRows
+        | Text::ResetChanceDisplayTwoRowsDescription
+        | Text::ResetChanceLabelColor
+        | Text::ResetChanceLabelColorDescription
+        | Text::ResetChanceValueColor
+        | Text::ResetChanceValueColorDescription => super::english::resolve(text),
         Text::StartSplit => "시작 / 스플릿",
         Text::StartSplitDescription => "스플릿과 새 시도를 시작하는 단축키입니다.",
         Text::Reset => "리셋",

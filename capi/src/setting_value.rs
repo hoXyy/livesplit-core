@@ -5,6 +5,7 @@ use crate::{Json, output_vec, str};
 use livesplit_core::{
     TimingMethod,
     component::{
+        reset_chance::{CalculationBasis, ChanceMode, PercentageAccuracy},
         splits::{ColumnStartWith, ColumnUpdateTrigger, ColumnUpdateWith, SubsplitDisplayMode},
         timer::DeltaGradient,
     },
@@ -132,6 +133,48 @@ pub unsafe extern "C" fn SettingValue_from_digits_format(
         "DoubleDigitMinutes" => DigitsFormat::DoubleDigitMinutes,
         "SingleDigitHours" => DigitsFormat::SingleDigitHours,
         "DoubleDigitHours" => DigitsFormat::DoubleDigitHours,
+        _ => return None,
+    };
+    Some(Box::new(value.into()))
+}
+
+/// Creates a Reset Chance mode setting value from its name.
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn SettingValue_from_reset_chance_mode(
+    value: *const c_char,
+) -> NullableOwnedSettingValue {
+    let value = match unsafe { str(value) } {
+        "ResetChance" => ChanceMode::ResetChance,
+        "SuccessChance" => ChanceMode::SuccessChance,
+        "RunsEnded" => ChanceMode::RunsEnded,
+        _ => return None,
+    };
+    Some(Box::new(value.into()))
+}
+
+/// Creates a Reset Chance calculation-basis setting value from its name.
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn SettingValue_from_reset_chance_calculation_basis(
+    value: *const c_char,
+) -> NullableOwnedSettingValue {
+    let value = match unsafe { str(value) } {
+        "AllRuns" => CalculationBasis::AllRuns,
+        "RecentRuns" => CalculationBasis::RecentRuns,
+        "RecentSplitAttempts" => CalculationBasis::RecentSplitAttempts,
+        _ => return None,
+    };
+    Some(Box::new(value.into()))
+}
+
+/// Creates a Reset Chance percentage-accuracy setting value from its name.
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn SettingValue_from_reset_chance_percentage_accuracy(
+    value: *const c_char,
+) -> NullableOwnedSettingValue {
+    let value = match unsafe { str(value) } {
+        "Integer" => PercentageAccuracy::Integer,
+        "Tenths" => PercentageAccuracy::Tenths,
+        "Hundredths" => PercentageAccuracy::Hundredths,
         _ => return None,
     };
     Some(Box::new(value.into()))

@@ -160,7 +160,10 @@ impl Component {
         let minimum = latest.saturating_add(1).saturating_sub(window_i32).max(1);
         let completions = Self::count_at_or_after(timer, segment, minimum);
         let attempts = if segment == 0 {
-            attempts_history.len().min(window)
+            attempts_history
+                .iter()
+                .filter(|attempt| attempt.index() >= minimum)
+                .count()
         } else {
             Self::count_at_or_after(timer, segment - 1, minimum)
         };

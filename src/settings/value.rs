@@ -1,6 +1,7 @@
 use crate::{
     TimingMethod,
     component::{
+        reset_chance::{CalculationBasis, ChanceMode, PercentageAccuracy},
         splits::{ColumnStartWith, ColumnUpdateTrigger, ColumnUpdateWith, SubsplitDisplayMode},
         timer::DeltaGradient,
     },
@@ -44,6 +45,12 @@ pub enum Value {
     /// A digits format, describing how many digits to show for the main part of
     /// a time.
     DigitsFormat(DigitsFormat),
+    /// The value shown by the Reset Chance Component.
+    ResetChanceMode(ChanceMode),
+    /// The history basis used by the Reset Chance Component.
+    ResetChanceCalculationBasis(CalculationBasis),
+    /// The percentage accuracy used by the Reset Chance Component.
+    ResetChancePercentageAccuracy(PercentageAccuracy),
     /// An optional timing method.
     OptionalTimingMethod(Option<TimingMethod>),
     /// A color.
@@ -127,6 +134,24 @@ impl From<Accuracy> for Value {
 impl From<DigitsFormat> for Value {
     fn from(x: DigitsFormat) -> Self {
         Value::DigitsFormat(x)
+    }
+}
+
+impl From<ChanceMode> for Value {
+    fn from(x: ChanceMode) -> Self {
+        Self::ResetChanceMode(x)
+    }
+}
+
+impl From<CalculationBasis> for Value {
+    fn from(x: CalculationBasis) -> Self {
+        Self::ResetChanceCalculationBasis(x)
+    }
+}
+
+impl From<PercentageAccuracy> for Value {
+    fn from(x: PercentageAccuracy) -> Self {
+        Self::ResetChancePercentageAccuracy(x)
     }
 }
 
@@ -297,6 +322,30 @@ impl Value {
     pub fn into_digits_format(self) -> Result<DigitsFormat> {
         match self {
             Value::DigitsFormat(v) => Ok(v),
+            _ => Err(Error::WrongType),
+        }
+    }
+
+    /// Tries to convert the value into a Reset Chance mode.
+    pub fn into_reset_chance_mode(self) -> Result<ChanceMode> {
+        match self {
+            Value::ResetChanceMode(v) => Ok(v),
+            _ => Err(Error::WrongType),
+        }
+    }
+
+    /// Tries to convert the value into a Reset Chance calculation basis.
+    pub fn into_reset_chance_calculation_basis(self) -> Result<CalculationBasis> {
+        match self {
+            Value::ResetChanceCalculationBasis(v) => Ok(v),
+            _ => Err(Error::WrongType),
+        }
+    }
+
+    /// Tries to convert the value into a Reset Chance percentage accuracy.
+    pub fn into_reset_chance_percentage_accuracy(self) -> Result<PercentageAccuracy> {
+        match self {
+            Value::ResetChancePercentageAccuracy(v) => Ok(v),
             _ => Err(Error::WrongType),
         }
     }
@@ -488,6 +537,24 @@ impl From<Value> for Accuracy {
 impl From<Value> for DigitsFormat {
     fn from(value: Value) -> Self {
         value.into_digits_format().unwrap()
+    }
+}
+
+impl From<Value> for ChanceMode {
+    fn from(value: Value) -> Self {
+        value.into_reset_chance_mode().unwrap()
+    }
+}
+
+impl From<Value> for CalculationBasis {
+    fn from(value: Value) -> Self {
+        value.into_reset_chance_calculation_basis().unwrap()
+    }
+}
+
+impl From<Value> for PercentageAccuracy {
+    fn from(value: Value) -> Self {
+        value.into_reset_chance_percentage_accuracy().unwrap()
     }
 }
 

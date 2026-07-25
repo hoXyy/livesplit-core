@@ -59,6 +59,7 @@ components = [
     "pb-chance-component",
     "possible-time-save-component",
     "previous-segment-component",
+    "reset-chance-component",
     "segment-time-component",
     "separator-component",
     "splits-component",
@@ -128,6 +129,7 @@ pb-chance-component = ["component", "key-value-component-state", "lang", "timer"
 possible-time-save-component = ["component", "key-value-component-state", "lang", "timer"]
 potential-clean-up = []
 previous-segment-component = ["component", "key-value-component-state", "lang", "timer"]
+reset-chance-component = ["component", "key-value-component-state", "lang", "timer"]
 run = [
     "attempt",
     "linked-layout",

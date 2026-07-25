@@ -97,6 +97,8 @@ pub mod possible_time_save_component;
 pub mod potential_clean_up;
 #[cfg(feature = "previous-segment-component")]
 pub mod previous_segment_component;
+#[cfg(feature = "reset-chance-component")]
+pub mod reset_chance_component;
 #[cfg(feature = "run")]
 pub mod run;
 #[cfg(feature = "run-editor")]

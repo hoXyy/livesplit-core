@@ -2,6 +2,32 @@ use super::{Piece, PlaceholderText, Text};
 
 pub const fn resolve(text: Text) -> &'static str {
     match text {
+        Text::ComponentResetChance
+        | Text::ComponentSuccessChance
+        | Text::ComponentRunsEnded
+        | Text::ResetChanceShort
+        | Text::SuccessChanceShort
+        | Text::RunsEndedShort
+        | Text::ResetChanceBackground
+        | Text::ResetChanceBackgroundDescription
+        | Text::ResetChanceMode
+        | Text::ResetChanceModeDescription
+        | Text::ResetChanceAccuracy
+        | Text::ResetChanceAccuracyDescription
+        | Text::ResetChanceTrailingZeroes
+        | Text::ResetChanceTrailingZeroesDescription
+        | Text::ResetChanceBasis
+        | Text::ResetChanceBasisDescription
+        | Text::ResetChanceRecentRuns
+        | Text::ResetChanceRecentRunsDescription
+        | Text::ResetChanceRecentSplitAttempts
+        | Text::ResetChanceRecentSplitAttemptsDescription
+        | Text::ResetChanceDisplayTwoRows
+        | Text::ResetChanceDisplayTwoRowsDescription
+        | Text::ResetChanceLabelColor
+        | Text::ResetChanceLabelColorDescription
+        | Text::ResetChanceValueColor
+        | Text::ResetChanceValueColorDescription => super::english::resolve(text),
         Text::StartSplit => "开始 / 分段",
         Text::StartSplitDescription => "用于分段并开始新尝试的快捷键。",
         Text::Reset => "重置",

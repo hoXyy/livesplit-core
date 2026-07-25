@@ -2,6 +2,42 @@ use super::{Piece, PlaceholderText, Text};
 
 pub const fn resolve(text: Text) -> &'static str {
     match text {
+        Text::ComponentResetChance => "Reset Chance",
+        Text::ComponentSuccessChance => "Success Chance",
+        Text::ComponentRunsEnded => "Runs Ended",
+        Text::ResetChanceShort => "Reset %",
+        Text::SuccessChanceShort => "Success %",
+        Text::RunsEndedShort => "Ended",
+        Text::ResetChanceBackground => "Background",
+        Text::ResetChanceBackgroundDescription => "The background shown behind the component.",
+        Text::ResetChanceMode => "Mode",
+        Text::ResetChanceModeDescription => "The statistic shown for the current segment.",
+        Text::ResetChanceAccuracy => "Accuracy",
+        Text::ResetChanceAccuracyDescription => "The number of fractional digits shown.",
+        Text::ResetChanceTrailingZeroes => "Show Trailing Zeroes",
+        Text::ResetChanceTrailingZeroesDescription => {
+            "Always shows the selected number of fractional digits."
+        }
+        Text::ResetChanceBasis => "Calculation Basis",
+        Text::ResetChanceBasisDescription => "The historical attempts included in the calculation.",
+        Text::ResetChanceRecentRuns => "Recent Run Count",
+        Text::ResetChanceRecentRunsDescription => "The size of the recent overall-attempt window.",
+        Text::ResetChanceRecentSplitAttempts => "Recent Split Attempt Count",
+        Text::ResetChanceRecentSplitAttemptsDescription => {
+            "The size of each recent segment-attempt window."
+        }
+        Text::ResetChanceDisplayTwoRows => "Display 2 Rows",
+        Text::ResetChanceDisplayTwoRowsDescription => {
+            "Displays the label and value on separate rows."
+        }
+        Text::ResetChanceLabelColor => "Label Color",
+        Text::ResetChanceLabelColorDescription => {
+            "The label color. Uses the layout color when unspecified."
+        }
+        Text::ResetChanceValueColor => "Value Color",
+        Text::ResetChanceValueColorDescription => {
+            "The value color. Uses the layout color when unspecified."
+        }
         Text::StartSplit => "Start / Split",
         Text::StartSplitDescription => {
             "The hotkey to use for splitting and starting a new attempt."

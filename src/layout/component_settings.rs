@@ -3,8 +3,8 @@ use crate::{
     component::{
         alternate_timing_method, blank_space, carousel, current_comparison, current_pace, delta,
         detailed_timer, graph, group, pb_chance, possible_time_save, previous_segment,
-        segment_time, separator, splits, sum_of_best, text, timer, title, total_playtime,
-        world_record,
+        reset_chance, segment_time, separator, splits, sum_of_best, text, timer, title,
+        total_playtime, world_record,
     },
     platform::prelude::*,
 };
@@ -33,6 +33,8 @@ pub enum ComponentSettings {
     PossibleTimeSave(possible_time_save::Settings),
     /// The Settings for the Previous Segment Component.
     PreviousSegment(previous_segment::Settings),
+    /// The Settings for the Reset Chance Component.
+    ResetChance(reset_chance::Settings),
     /// The Settings for the Segment Time Component.
     SegmentTime(segment_time::Settings),
     /// The Settings for the Separator Component.
@@ -89,6 +91,9 @@ impl From<ComponentSettings> for Component {
             }
             ComponentSettings::PreviousSegment(settings) => {
                 Component::PreviousSegment(previous_segment::Component::with_settings(settings))
+            }
+            ComponentSettings::ResetChance(settings) => {
+                Component::ResetChance(reset_chance::Component::with_settings(settings))
             }
             ComponentSettings::SegmentTime(settings) => {
                 Component::SegmentTime(segment_time::Component::with_settings(settings))

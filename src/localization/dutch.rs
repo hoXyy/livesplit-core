@@ -2,6 +2,32 @@ use super::{Piece, PlaceholderText, Text};
 
 pub const fn resolve(text: Text) -> &'static str {
     match text {
+        Text::ComponentResetChance
+        | Text::ComponentSuccessChance
+        | Text::ComponentRunsEnded
+        | Text::ResetChanceShort
+        | Text::SuccessChanceShort
+        | Text::RunsEndedShort
+        | Text::ResetChanceBackground
+        | Text::ResetChanceBackgroundDescription
+        | Text::ResetChanceMode
+        | Text::ResetChanceModeDescription
+        | Text::ResetChanceAccuracy
+        | Text::ResetChanceAccuracyDescription
+        | Text::ResetChanceTrailingZeroes
+        | Text::ResetChanceTrailingZeroesDescription
+        | Text::ResetChanceBasis
+        | Text::ResetChanceBasisDescription
+        | Text::ResetChanceRecentRuns
+        | Text::ResetChanceRecentRunsDescription
+        | Text::ResetChanceRecentSplitAttempts
+        | Text::ResetChanceRecentSplitAttemptsDescription
+        | Text::ResetChanceDisplayTwoRows
+        | Text::ResetChanceDisplayTwoRowsDescription
+        | Text::ResetChanceLabelColor
+        | Text::ResetChanceLabelColorDescription
+        | Text::ResetChanceValueColor
+        | Text::ResetChanceValueColorDescription => super::english::resolve(text),
         Text::StartSplit => "Start / Split",
         Text::StartSplitDescription => {
             "De sneltoets om te splitten en een nieuwe poging te starten."

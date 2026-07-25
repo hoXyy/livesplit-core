@@ -29,6 +29,28 @@ mod parse {
     }
 
     #[test]
+    fn reset_chance() {
+        use livesplit_core::component::reset_chance::{
+            CalculationBasis, ChanceMode, PercentageAccuracy,
+        };
+
+        let layout = livesplit(layout_files::RESET_CHANCE);
+        let Component::ResetChance(component) = &layout.components[0] else {
+            panic!("Reset Chance component not found");
+        };
+        let settings = component.settings();
+        assert!(settings.chance_mode == ChanceMode::SuccessChance);
+        assert!(settings.accuracy == PercentageAccuracy::Hundredths);
+        assert!(settings.calculation_basis == CalculationBasis::RecentSplitAttempts);
+        assert!(settings.show_trailing_zeroes);
+        assert_eq!(settings.recent_runs, 25);
+        assert_eq!(settings.recent_split_attempts, 10);
+        assert!(settings.display_two_rows);
+        assert!(settings.label_color.is_some());
+        assert!(settings.value_color.is_none());
+    }
+
+    #[test]
     fn subsplits() {
         let l = livesplit(layout_files::SUBSPLITS);
         let Some(splits) = l.components.iter().find_map(|c| match c {

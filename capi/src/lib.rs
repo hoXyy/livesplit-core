@@ -55,6 +55,7 @@ pub mod pb_chance_component;
 pub mod possible_time_save_component;
 pub mod potential_clean_up;
 pub mod previous_segment_component;
+pub mod reset_chance_component;
 pub mod run;
 pub mod run_editor;
 pub mod run_metadata;

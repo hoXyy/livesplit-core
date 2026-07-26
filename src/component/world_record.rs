@@ -223,7 +223,11 @@ impl Component {
 
     /// Restarts the speedrun.com lookup.
     pub fn refresh(&mut self) {
-        self.lookup = Lookup::default();
+        self.lookup = Lookup {
+            query: self.lookup.query.take(),
+            records: core::mem::take(&mut self.lookup.records),
+            ..Lookup::default()
+        };
     }
 
     /// Returns the URL of the next speedrun.com API request.
@@ -492,8 +496,14 @@ impl Component {
             (TimeStamp::now() - completed_at) >= TimeSpan::from_seconds(REFRESH_SECONDS)
         });
         if self.lookup.query.as_ref() != Some(&query) || expired {
+            let records = if expired {
+                core::mem::take(&mut self.lookup.records)
+            } else {
+                Vec::new()
+            };
             self.lookup = Lookup {
                 query: Some(query),
+                records,
                 ..Lookup::default()
             };
         }
@@ -853,6 +863,32 @@ mod tests {
         assert_eq!(
             component.state(&timer.snapshot(), Lang::English).value,
             "0:10 by Guest"
+        );
+    }
+
+    #[test]
+    fn keeps_the_previous_record_while_refreshing() {
+        let timer = timer();
+        let mut component = Component::new();
+        component.lookup.query = Some(component.query_for_test(&timer.snapshot()));
+        component.lookup.stage = Stage::Complete;
+        component.lookup.records.push(Record {
+            times: Times {
+                primary: Some(10.0),
+                ..Times::default()
+            },
+            runners: vec!["Guest".into()],
+        });
+
+        component.refresh();
+
+        assert_eq!(
+            component.state(&timer.snapshot(), Lang::English).value,
+            "0:10 by Guest"
+        );
+        assert_eq!(
+            component.request_url(&timer.snapshot()).as_deref(),
+            Some("https://www.speedrun.com/api/v1/games?name=Game%20%26%20Watch")
         );
     }
 }
